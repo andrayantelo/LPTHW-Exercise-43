@@ -66,8 +66,10 @@ class LaserWeaponArmory(Scene):
         
         if len(code) > 4:
             raw_input('Please type in 4 numbers.\n\n> ')
-        if issubset(set(code), allowed_numbers) == False:
-            print "no"
+        elif len(code) < 4:
+            raw_input('Please type in 4 numbers.\n\n> ')
+        elif set(code).issubset(allowed_numbers) == False:
+            raw_input('Please type in 4 numbers.\n\n> ')
         if code == '2389':
             print "You have unlocked the vault!."
             print "You have obtained item 'Bomb' and item 'Key'"
@@ -78,6 +80,7 @@ class LaserWeaponArmory(Scene):
          #       raw_input('Please type in 4 numbers.\n\n> ')
         else: 
             print "Wrong code."
+            # I want a person to get three tries. then it's game over.
             
 test2 = LaserWeaponArmory()
 test2.enter()
