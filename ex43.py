@@ -48,8 +48,8 @@ class CentralCorridor(Scene):
             pass
             #Death()
             
-test = CentralCorridor()
-test.enter()
+#test = CentralCorridor()
+#test.enter()
 
 
 class LaserWeaponArmory(Scene):
@@ -74,10 +74,7 @@ class LaserWeaponArmory(Scene):
             print "You have unlocked the vault!."
             print "You have obtained item 'Bomb' and item 'Key'"
             #items.append['Bomb', 'Key']
-        
-        #for number in code:
-          #  if number not in allowed_numbers:
-         #       raw_input('Please type in 4 numbers.\n\n> ')
+            #TheBridge()
         else: 
             print "Wrong code."
             # I want a person to get three tries. then it's game over.
@@ -88,7 +85,25 @@ test2.enter()
 class TheBridge(Scene):
 
     def enter(self):
-         pass
+         print "All you need to do is cross this bridge and get to the escape pods!"
+         print "Oh no! There is a Gothon standing in your way."
+         print "The Gothon snarls. With a gleam in his eye he reaches for his club."
+         print "ROAAAAAAAAAAAAAAAAAR! The Gothon charges."
+         
+         use_gun = raw_input('Type a command\n\n> ')
+         
+        if "gun" in use_gun:
+            print "You quickly remember you picked up a laser gun."
+            print "You aim at the Gothon and start shooting like crazy."
+            print "PEW PEW PEW!"
+            print "The Gothon screams in agony as he clutches his laser wounds."
+            print "The Gothon collapses and bleeds a gooey green substance."
+            print "It is over. The Gothon is dead."
+            print "You feel bad for him for a second and then hear the ship's alarms"
+            print "Quickly you run towards the escape pod room."
+            #EscapePod
+        if "bomb" in use_gun:
+            print "You"
          
 class EscapePod(Scene):
 
