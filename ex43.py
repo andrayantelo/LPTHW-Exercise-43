@@ -2,8 +2,11 @@ from sys import exit
 
 class Scene(object):
 
+    items = []
+
     def enter(self):
-        pass
+        print "You have entered"
+        
         
 
 class Engine(object):
@@ -31,18 +34,39 @@ class CentralCorridor(Scene):
                     What am I\'?"""
         answer = raw_input('> ')
         if answer == 'A bird\'s shadow':
-            print "The Gothon steps aside and let's you pass."
+            print "The Gothon steps aside and lets you pass."
+            print "You have obtained item Laser Gun."
+            items.append('Laser Gun')
             #LaserWeaponArmory()
         else:
             pass
             #Death()
             
 test = CentralCorridor()
-test
+test.enter()
+
 class LaserWeaponArmory(Scene):
 
     def enter(self):
-        pass
+        print "You have entered the Laser Weapon Armory."
+        print "You know there is a bomb in the vault in the room."
+        print "Only the captain knows the code for the keypad to the vault."
+        print "The captain is likely dead so it is up to you to figure it out."
+        
+        code = str(raw_input('Input 4 numbers please.\n\n> '))
+        allowed_numbers = '0123456789'
+        
+        if code == '2389':
+            print "You have unlocked the vault!."
+            print "You have obtained item 'Bomb' and item 'Key'"
+            items.append['Bomb', 'Key']
+        if len(code) > 4:
+            print "Please type in 4 numbers."
+        for number in code:
+            if number not in allowed_numbers:
+                print "Please type in 4 numbers."
+        else: 
+            print "Wrong code."
         
 class TheBridge(Scene):
 
