@@ -79,18 +79,18 @@ class LaserWeaponArmory(Scene):
             print "Wrong code."
             # I want a person to get three tries. then it's game over.
             
-test2 = LaserWeaponArmory()
-test2.enter()
+#test2 = LaserWeaponArmory()
+#test2.enter()
         
 class TheBridge(Scene):
 
     def enter(self):
-         print "All you need to do is cross this bridge and get to the escape pods!"
-         print "Oh no! There is a Gothon standing in your way."
-         print "The Gothon snarls. With a gleam in his eye he reaches for his club."
-         print "ROAAAAAAAAAAAAAAAAAR! The Gothon charges."
+        print "All you need to do is cross this bridge and get to the escape pods!"
+        print "Oh no! There is a Gothon standing in your way."
+        print "The Gothon snarls. With a gleam in his eye he reaches for his club."
+        print "ROAAAAAAAAAAAAAAAAAR! The Gothon charges."
          
-         use_gun = raw_input('Type a command\n\n> ')
+        use_gun = raw_input('Type a command\n\n> ')
          
         if "gun" in use_gun:
             print "You quickly remember you picked up a laser gun."
@@ -102,8 +102,25 @@ class TheBridge(Scene):
             print "You feel bad for him for a second and then hear the ship's alarms"
             print "Quickly you run towards the escape pod room."
             #EscapePod
-        if "bomb" in use_gun:
-            print "You"
+        elif "bomb" in use_gun:
+            print "You remember you picked up a bomb in the previous room."
+            print "You quickly get it out of your pack and pull the pin"
+            print "You throw it in the Gothon's direction and dive behind a pillar"
+            print "BOOOOOOOOOOOOMBABABABABABABABAOOOOOOMOBOOOOOM"
+            print "It's a miracle you're still alive and not deaf."
+            print "You peek out from behind the pillar."
+            print "Gothon guts. Gothon guts everywhere."
+            print "The good news is the coast is clear."
+            print "You make a run for the escape pod."
+            #EscapePod
+        else:
+            print "You should have thought about the items you have picked up!"
+            print "As in the weapons!"
+            print "Oh well, game over for you!"
+            #DeathScene
+
+bridge_test = TheBridge()
+bridge_test.enter()
          
 class EscapePod(Scene):
 
