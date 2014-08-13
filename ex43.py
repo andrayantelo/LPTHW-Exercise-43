@@ -1,11 +1,14 @@
 from sys import exit
 
 class Scene(object):
+   # 
+   # def __init__(self):
 
-    items = []
+        #self.items = []
 
     def enter(self):
-        print "You have entered"
+        #print "You have entered"
+        pass
         
         
 
@@ -23,7 +26,10 @@ class Death(Scene):
         pass
         
 class CentralCorridor(Scene):
-
+    
+    #def __init__(self):
+        #super(CentralCorridor, self).__init__()
+    
     def enter(self):
         print "Aliens have invaded the space ship! You are the ship's only hope!"
         print "You run into the central corridor of the ship hoping to make it to the escape pod."
@@ -36,7 +42,7 @@ class CentralCorridor(Scene):
         if answer == 'A bird\'s shadow':
             print "The Gothon steps aside and lets you pass."
             print "You have obtained item Laser Gun."
-            items.append('Laser Gun')
+            #self.items.append('Laser Gun')
             #LaserWeaponArmory()
         else:
             pass
@@ -44,6 +50,7 @@ class CentralCorridor(Scene):
             
 test = CentralCorridor()
 test.enter()
+
 
 class LaserWeaponArmory(Scene):
 
@@ -54,19 +61,26 @@ class LaserWeaponArmory(Scene):
         print "The captain is likely dead so it is up to you to figure it out."
         
         code = str(raw_input('Input 4 numbers please.\n\n> '))
-        allowed_numbers = '0123456789'
         
+        allowed_numbers = set('0123456789')
+        
+        if len(code) > 4:
+            raw_input('Please type in 4 numbers.\n\n> ')
+        if issubset(set(code), allowed_numbers) == False:
+            print "no"
         if code == '2389':
             print "You have unlocked the vault!."
             print "You have obtained item 'Bomb' and item 'Key'"
-            items.append['Bomb', 'Key']
-        if len(code) > 4:
-            print "Please type in 4 numbers."
-        for number in code:
-            if number not in allowed_numbers:
-                print "Please type in 4 numbers."
+            #items.append['Bomb', 'Key']
+        
+        #for number in code:
+          #  if number not in allowed_numbers:
+         #       raw_input('Please type in 4 numbers.\n\n> ')
         else: 
             print "Wrong code."
+            
+test2 = LaserWeaponArmory()
+test2.enter()
         
 class TheBridge(Scene):
 
