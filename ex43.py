@@ -1,4 +1,6 @@
 from sys import exit
+import time
+import textwrap
 
 class Scene(object):
    # 
@@ -31,15 +33,16 @@ class CentralCorridor(Scene):
         #super(CentralCorridor, self).__init__()
     
     def enter(self):
-        print "Aliens have invaded the space ship! You are the ship's only hope!"
-        print "You run into the central corridor of the ship hoping to make it to the escape pod."
-        print "Alas! There is a Gothon standing in the middle of the corridor!"
-        print """\'Puny human! Answer this riddle and you may pass! 
-                    I'm the part of a bird that's not in the sky,
-                    I can swim in th eocean and remain dry.
-                    What am I\'?"""
+        centralcorridor_text = """Aliens have invaded the space ship! You are the ship's only hope!"
+        You run into the central corridor of the ship hoping to make it to the escape pod."
+        Alas! There is a Gothon standing in the middle of the corridor!"
+        \'Puny human! Answer this riddle and you may pass! 
+            I'm the part of a bird that's not in the sky,
+            I can swim in th eocean and remain dry.
+            What am I\'?"""
         answer = raw_input('> ')
         if answer == 'A bird\'s shadow':
+            
             print "The Gothon steps aside and lets you pass."
             print "You have obtained item Laser Gun."
             #self.items.append('Laser Gun')
@@ -48,8 +51,8 @@ class CentralCorridor(Scene):
             pass
             #Death()
             
-#test = CentralCorridor()
-#test.enter()
+test = CentralCorridor()
+test.enter()
 
 
 class LaserWeaponArmory(Scene):
@@ -123,15 +126,44 @@ class TheBridge(Scene):
                 print "Oh well, game over for you!"
                 #DeathScene
 
-bridge_test = TheBridge()
-bridge_test.enter()
+#bridge_test = TheBridge()
+#bridge_test.enter()
          
 class EscapePod(Scene):
 
     def enter(self):
         print "You burst into the escape pod room."
-        print "There are 5 escape pods available" 
+        print "There are 5 escape pods available." 
+        print "You have a key for one of the escape pods and very little time left."
+        escape = str(raw_input('Which escape pod do you pick (1-5)?\n\n> '))
         
+        if escape == '1':
+            pass
+            #death
+        elif escape == '2':
+            pass
+            #death
+        elif escape == '3':
+            pass
+            #death
+        elif escape == '4':
+            print "\n\n\nThe key turns and the escape pod opens!"
+            print "You jump inside and hit the green start button."
+            print "Just before the escape pod closes you hurl the bomb into the space ship."
+            print "As the escape pod begins to leave the ship you see Gothons running up."
+            print "One of them picks up the bomb and looks at it curiously."
+            print "The escape pod zooms away and the ship explodes."
+            print "It's over. You made it. Congratulations."
+            print "You take a moment to register what just happened and sink into your seat."
+            print "'Everyone I know is dead.'"
+            print "You begin to cry uncontrollably as the pod makes it's way down to your home planet."
+        elif escape == '5':
+            pass
+            #death
+
+escape_test = EscapePod()
+escape_test.enter()
+
         
 class Map(object):
 
