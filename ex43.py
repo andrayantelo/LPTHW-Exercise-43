@@ -1,16 +1,25 @@
 from sys import exit
 import time
 import textwrap
+import string
 
 class Scene(object):
-   # 
-   # def __init__(self):
+    
+    def __init__(self):
 
-        #self.items = []
+        self.items = []
+        self.description = 'scene'
 
     def enter(self):
-        #print "You have entered"
-        pass
+        print "\n\nYou have entered %s." % self.description
+        
+        
+    def slow_print(self, text):
+        #lines = textwrap.dedent(text)
+        lines = text.split('\n')
+        for line in lines:
+            print line
+            time.sleep(0.1)
         
         
 
@@ -29,22 +38,34 @@ class Death(Scene):
         
 class CentralCorridor(Scene):
     
-    #def __init__(self):
-        #super(CentralCorridor, self).__init__()
+    def __init__(self):
+        super(CentralCorridor, self).__init__()
+      
+        self.central_text = textwrap.dedent(
+        """\n\n\n
+        Aliens have invaded the space ship! You are the ship's only hope!
+        You run into the central corridor of the ship hoping to make it to
+        the escape pod. Alas! There is a Gothon standing in the middle of the
+        corridor! \'Puny human! Answer this riddle and you may pass! 
+            I'm the part of a bird that's not in the sky,
+            I can swim in the ocean and remain dry.
+            What am I\'?""")
+        self.description = 'Central Corridor'
+        self.items.append('Laser Gun')
     
     def enter(self):
-        centralcorridor_text = """Aliens have invaded the space ship! You are the ship's only hope!"
-        You run into the central corridor of the ship hoping to make it to the escape pod."
-        Alas! There is a Gothon standing in the middle of the corridor!"
-        \'Puny human! Answer this riddle and you may pass! 
-            I'm the part of a bird that's not in the sky,
-            I can swim in th eocean and remain dry.
-            What am I\'?"""
-        answer = raw_input('> ')
-        if answer == 'A bird\'s shadow':
-            
-            print "The Gothon steps aside and lets you pass."
-            print "You have obtained item Laser Gun."
+        super(CentralCorridor, self).enter()
+        
+    
+        self.slow_print(self.central_text)
+        answer = str(raw_input('> '))
+        answer = answer.lower()
+        if answer == 'a bird\'s shadow':
+            riddle_text = """ 
+            The Gothon steps aside and lets you pass.
+            You have obtained item Laser Gun."""
+            riddle_text = textwrap.dedent(riddle_text)
+            print riddle_text
             #self.items.append('Laser Gun')
             #LaserWeaponArmory()
         else:
@@ -161,8 +182,8 @@ class EscapePod(Scene):
             pass
             #death
 
-escape_test = EscapePod()
-escape_test.enter()
+#escape_test = EscapePod()
+#escape_test.enter()
 
         
 class Map(object):
