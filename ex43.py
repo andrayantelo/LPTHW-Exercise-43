@@ -31,9 +31,25 @@ class Engine(object):
         pass
         
 class Death(Scene):
+    
+    def __init__(self):
+        self.dead = 'Game over!'
+        code_death = textwrap.dedent(
+        """\n\n\n
+        You have taken too long to guess the code! Gothons appear out of 
+        nowhere and throw you out of the ship into space. GAME OVER!"""
+        bridge_death = textwrap.dedent(
+        """\n\n\n 
+        As you stand there frozen in fear, more Gothons show up and it's 
+        game over for you!"""
+        pod_death = textwrap.dedent(
+        """\n\n\n
+        WRONG! It's too late now. Gothons have surrounded you. Game over!
+        """
+         
 
     def enter(self):
-        pass
+        print "\n\n%s." % self.dead
         
 class CentralCorridor(Scene):
     
@@ -55,6 +71,10 @@ class CentralCorridor(Scene):
         You have obtained item Laser Gun.""")
         self.description = 'Central Corridor'
         self.items.append('Laser Gun')
+        self.dead = textwrap.dedent(
+        """\n\n\n 
+        'THAT IS THE WRONG ANSWER!' The Gothon booms. Then he grabs you 
+        and drags you off to be a prisoner of war."""
     
     def enter(self):
         super(CentralCorridor, self).enter()
