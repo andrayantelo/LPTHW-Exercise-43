@@ -34,18 +34,18 @@ class Death(Scene):
     
     def __init__(self):
         self.dead = 'Game over!'
-        code_death = textwrap.dedent(
+        self.code_death = textwrap.dedent(
         """\n\n\n
         You have taken too long to guess the code! Gothons appear out of 
-        nowhere and throw you out of the ship into space. GAME OVER!"""
-        bridge_death = textwrap.dedent(
+        nowhere and throw you out of the ship into space. GAME OVER!""")
+        self.bridge_death = textwrap.dedent(
         """\n\n\n 
         As you stand there frozen in fear, more Gothons show up and it's 
-        game over for you!"""
-        pod_death = textwrap.dedent(
+        game over for you!""")
+        self.pod_death = textwrap.dedent(
         """\n\n\n
         WRONG! It's too late now. Gothons have surrounded you. Game over!
-        """
+        """)
          
 
     def enter(self):
@@ -74,7 +74,7 @@ class CentralCorridor(Scene):
         self.dead = textwrap.dedent(
         """\n\n\n 
         'THAT IS THE WRONG ANSWER!' The Gothon booms. Then he grabs you 
-        and drags you off to be a prisoner of war."""
+        and drags you off to be a prisoner of war.""")
     
     def enter(self):
         super(CentralCorridor, self).enter()
@@ -112,27 +112,36 @@ class LaserWeaponArmory(Scene):
         
         self.slow_print(self.laser_entry)
         
-        code = str(raw_input('Input 4 numbers please.\n\n> '))
+        guesses = ''
+        print "Input 4 numbers please.\n\n"
+        while True:
+
+            code = str(raw_input('> '))
+            guesses = guesses + code
         
-        allowed_numbers = set('0123456789')
+            allowed_numbers = set('0123456789')
         
-        if len(code) > 4:
-            raw_input('Please type in 4 numbers.\n\n> ')
-        elif len(code) < 4:
-            raw_input('Please type in 4 numbers.\n\n> ')
-        elif set(code).issubset(allowed_numbers) == False:
-            raw_input('Please type in 4 numbers.\n\n> ')
-        if code == '2389':
-            print "You have unlocked the vault!."
-            print "You have obtained item 'Bomb', 'Grenade' and item 'Key'"
-            #items.append['Bomb', 'Key']
-            #TheBridge()
-        else: 
-            print "Wrong code."
-            # I want a person to get three tries. then it's game over.
+            if len(code) > 4:
+                raw_input('Please type in 4 numbers.\n\n> ')
+            elif len(code) < 4:
+                raw_input('Please type in 4 numbers.\n\n> ')
+            elif set(code).issubset(allowed_numbers) == False:
+                raw_input('Please type in 4 numbers.\n\n> ')
+            if code == '2389':
+                print "You have unlocked the vault!."
+                print "You have obtained item 'Bomb', 'Grenade' and item 'Key'"
+                #items.append['Bomb', 'Key']
+                #TheBridge()
+            else: 
+                print "Wrong code."
+                # I want a person to get three tries. then it's game over.
+                if len(guesses) == len(code) * 3:
+                    print "\nYou took too long! A Gothon ate you."
+                    print "GAME OVER!"
+                    exit()
             
-test2 = LaserWeaponArmory()
-test2.enter()
+#test2 = LaserWeaponArmory()
+#test2.enter()
         
 class TheBridge(Scene):
     
