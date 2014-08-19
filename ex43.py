@@ -25,31 +25,52 @@ class Scene(object):
 class Engine(object):
 
     def __init__(self, scene_map):
-        pass
+        self.scene_map = scene_map
+        
+    def play_again(self):
+        print "\nWould you like to play again?"
+        while True:
+            response = str(raw_input("y or n?\n> "))
+            response = response.lower()
+            if response == 'y':
+                a_game.play()
+            if response == 'n':
+                exit()
+            else:
+                continue
         
     def play(self):
-        pass
+        current_scene = self.scene_map.opening_scene()
+        
+        
+        while True:
+            print "\n ------------------"
+            next_scene_name = current_scene.enter()
+            current_scene = self.scene_map.next_scene(next_scene_name)
+        
         
 class Death(Scene):
     
     def __init__(self):
         self.dead = 'Game over!'
         self.code_death = textwrap.dedent(
-        """\n\n\n
+        """\n\n
         You have taken too long to guess the code! Gothons appear out of 
         nowhere and throw you out of the ship into space. GAME OVER!""")
         self.bridge_death = textwrap.dedent(
-        """\n\n\n 
+        """\n\n 
         As you stand there frozen in fear, more Gothons show up and it's 
         game over for you!""")
         self.pod_death = textwrap.dedent(
-        """\n\n\n
+        """\n\n
         WRONG! It's too late now. Gothons have surrounded you. Game over!
         """)
          
 
     def enter(self):
         print "\n\n%s." % self.dead
+        a_game.play_again()
+        
         
 class CentralCorridor(Scene):
     
@@ -57,7 +78,7 @@ class CentralCorridor(Scene):
         super(CentralCorridor, self).__init__()
       
         self.central_text = textwrap.dedent(
-        """\n\n\n
+        """\n\n
         Aliens have invaded the space ship! You are the ship's only hope!
         You run into the central corridor of the ship hoping to make it to
         the escape pod. Alas! There is a Gothon standing in the middle of the
@@ -66,13 +87,13 @@ class CentralCorridor(Scene):
             I can swim in the ocean and remain dry.
             What am I\'?""")
         self.riddle_text = textwrap.dedent(
-        """ \n\n\n
+        """ \n\n
         The Gothon steps aside and lets you pass.
         You have obtained item Laser Gun.""")
         self.description = 'Central Corridor'
         self.items.append('Laser Gun')
         self.dead = textwrap.dedent(
-        """\n\n\n 
+        """\n\n 
         'THAT IS THE WRONG ANSWER!' The Gothon booms. Then he grabs you 
         and drags you off to be a prisoner of war.""")
     
@@ -87,13 +108,12 @@ class CentralCorridor(Scene):
             
             print self.riddle_text
             #self.items.append('Laser Gun')
-            #LaserWeaponArmory()
+            return 'laser_weapon_armory'
         else:
-            pass
-            #Death()
+            return 'death'
             
-test = CentralCorridor()
-test.enter()
+#test = CentralCorridor()
+#test.enter()
 
 
 class LaserWeaponArmory(Scene):
@@ -101,7 +121,7 @@ class LaserWeaponArmory(Scene):
     def __init__(self):
         super(LaserWeaponArmory, self).__init__()
         self.laser_entry = textwrap.dedent(
-        """\n\n\n
+        """\n\n
         You know there is a bomb in the vault in the room. Only the
         captain knows the code for the keypad to the vault. The captain
         is likely dead so it is up to you to figure it out!""")
@@ -131,7 +151,7 @@ class LaserWeaponArmory(Scene):
                 print "You have unlocked the vault!."
                 print "You have obtained item 'Bomb', 'Grenade' and item 'Key'"
                 #items.append['Bomb', 'Key']
-                #TheBridge()
+                return 'the_bridge'
             else: 
                 print "Wrong code."
                 # I want a person to get three tries. then it's game over.
@@ -148,13 +168,13 @@ class TheBridge(Scene):
     def __init__(self):
         super(TheBridge, self).__init__()
         self.bridge_entry = textwrap.dedent(
-        """ \n\n\n
+        """ \n\n
         All you need to do is cross this bridge and get to the esape pods!
         Oh no! There is a Gothon standing in your way. The Gothon snarls.
         With a glean in it's eye he reaches for his club. 
         'ROAAAAAAAAAAAAAAAAAAAAAAR!' The Gothon charges.""")
         self.gun_text = textwrap.dedent(
-        """\n\n\n
+        """\n\n
         You quickly remember you picked up a laser gun earlier. You aim 
         at the Gothon and start shooting like crazy.
         PEW PEW PEW!
@@ -164,7 +184,7 @@ class TheBridge(Scene):
         hear the ship's alarms. You hurriedly run towards the escape pod
         room, stepping over the suffering Gothon.""")
         self.grenade_text = textwrap.dedent(
-        """\n\n\n
+        """\n\n
         You remember you picked up a grenade in the previous room. You 
         quickly get it out of your pack and pull the pin. You throw it in 
         direction of the Gothon and dive behind a pillar. 
@@ -185,10 +205,10 @@ class TheBridge(Scene):
          
             if "gun" in use_gun:
                 self.slow_print(self.gun_text)
-                #EscapePod
+                return 'escape_pod'
             elif "grenade" in use_gun:
                 self.slow_print(self.grenade_text)
-                #EscapePod
+                return 'escape_pod'
             elif "bomb" in use_gun:
                 print "No, no. That's for blowing up the ship as you escape."
                 continue
@@ -196,23 +216,23 @@ class TheBridge(Scene):
                 print "You should have thought about the items you have picked up!"
                 print "As in the weapons!"
                 print "Oh well, game over for you!"
-                #DeathScene
+                return 'death'
 
 #bridge_test = TheBridge()
 #bridge_test.enter()
          
 class EscapePod(Scene):
-    
+
     def __init__(self):
         super(EscapePod, self).__init__()
         self.description = 'Escape Pod Room'
         self.escape_entry = textwrap.dedent(
-        """ \n\n\n
+        """ \n\n
         You burst into the escape pod room. There are five escape pods 
         available. You have the key for one of the escape pods and very 
         little time left.""")
         self.pod_text = textwrap.dedent(
-        """\n\n\n
+        """\n\n
         The key turns and the escape pod opens! You jump inside and hit 
         the green start button. Just before the escape pod closes you
         hurl the bomb into the space ship. As the escape pod begins to 
@@ -230,33 +250,38 @@ class EscapePod(Scene):
         
         if escape == '1':
             pass
-            #death
+            return 'death'
         elif escape == '2':
             pass
-            #death
+            return 'death'
         elif escape == '3':
             pass
-            #death
+            return 'death'
         elif escape == '4':
             self.slow_print(self.pod_text)
+            a_game.play_again()
         elif escape == '5':
             pass
-            #death
+            return 'death'
 
-escape_test = EscapePod()
-escape_test.enter()
 
         
 class Map(object):
 
+    scenes = {'central_corridor' : CentralCorridor(),
+              'laser_weapon_armory' : LaserWeaponArmory(),
+              'the_bridge' : TheBridge(),
+              'escape_pod' : EscapePod(),
+              'death' : Death()}
+              
     def __init__(self, start_scene):
-        pass
+        self.start_scene = start_scene
         
     def next_scene(self, scene_name):
-        pass
+        return Map.scenes.get(scene_name)
         
     def opening_scene(self):
-        pass
+        return self.next_scene(self.start_scene)
         
         
 a_map = Map('central_corridor')
