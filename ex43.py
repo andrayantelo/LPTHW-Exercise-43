@@ -2,6 +2,7 @@ from sys import exit
 import time
 import textwrap
 import string
+from random import randint
 
 class Scene(object):
     
@@ -107,7 +108,7 @@ class CentralCorridor(Scene):
         if answer == 'a bird\'s shadow':
             
             print self.riddle_text
-            #self.items.append('Laser Gun')
+            self.items.append('Laser Gun')
             return 'laser_weapon_armory'
         else:
             return 'death'
@@ -134,28 +135,35 @@ class LaserWeaponArmory(Scene):
         
         guesses = ''
         print "Input 4 numbers please.\n\n"
+        code = "%d%d%d" %(randint(1,9), randint(1,9), randint(1,9), randint(1,9))
+        cheat_code = "%d%d%d" % (1, 2, 3, 4)
         while True:
 
-            code = str(raw_input('> '))
-            guesses = guesses + code
+            guess = str(raw_input('> '))
+            guesses = guesses + guess
         
             allowed_numbers = set('0123456789')
         
-            if len(code) > 4:
+            if len(guess) > 4:
                 raw_input('Please type in 4 numbers.\n\n> ')
-            elif len(code) < 4:
+            elif len(guess) < 4:
                 raw_input('Please type in 4 numbers.\n\n> ')
-            elif set(code).issubset(allowed_numbers) == False:
+            elif set(guess).issubset(allowed_numbers) == False:
                 raw_input('Please type in 4 numbers.\n\n> ')
-            if code == '2389':
+            if guess == cheat_code:
+                print "You have unlocked the vault!."
+                return 'the_bridge'
+                
+            if guess == code:
                 print "You have unlocked the vault!."
                 print "You have obtained item 'Bomb', 'Grenade' and item 'Key'"
-                #items.append['Bomb', 'Key']
+                self.items.append('Bomb')
+                self.items.append('Key')
                 return 'the_bridge'
             else: 
                 print "Wrong code."
                 # I want a person to get three tries. then it's game over.
-                if len(guesses) == len(code) * 3:
+                if len(guesses) == len(guess) * 3:
                     print "\nYou took too long! A Gothon ate you."
                     print "GAME OVER!"
                     exit()
@@ -259,6 +267,7 @@ class EscapePod(Scene):
             return 'death'
         elif escape == '4':
             self.slow_print(self.pod_text)
+            print "%s" % self.items
             a_game.play_again()
         elif escape == '5':
             pass
