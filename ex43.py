@@ -8,7 +8,6 @@ class Scene(object):
     
     def __init__(self):
 
-        self.items = []
         self.description = 'scene'
 
     def enter(self):
@@ -20,13 +19,15 @@ class Scene(object):
         for line in lines:
             print line
             time.sleep(0.1)
-        
+            
         
 
 class Engine(object):
 
-    def __init__(self, scene_map):
+    def __init__(self, scene_map, player):
         self.scene_map = scene_map
+        self.items = []
+        self.player = player
         
     def play_again(self):
         print "\nWould you like to play again?"
@@ -39,6 +40,10 @@ class Engine(object):
                 exit()
             else:
                 continue
+                
+    def pass_player(self, player):
+        pass
+            
         
     def play(self):
         current_scene = self.scene_map.opening_scene()
@@ -76,7 +81,7 @@ class Death(Scene):
 class CentralCorridor(Scene):
     
     def __init__(self):
-        super(CentralCorridor, self).__init__()
+        #super(CentralCorridor, self).__init__()
       
         self.central_text = textwrap.dedent(
         """\n\n
@@ -92,7 +97,8 @@ class CentralCorridor(Scene):
         The Gothon steps aside and lets you pass.
         You have obtained item Laser Gun.""")
         self.description = 'Central Corridor'
-        self.items.append('Laser Gun')
+        self.new_item = 'Laser gun'
+        self.scenes = 'scenes'
         self.dead = textwrap.dedent(
         """\n\n 
         'THAT IS THE WRONG ANSWER!' The Gothon booms. Then he grabs you 
@@ -108,7 +114,8 @@ class CentralCorridor(Scene):
         if answer == 'a bird\'s shadow':
             
             print self.riddle_text
-            self.items.append('Laser Gun')
+            player_1.obtain_item(self.new_item)
+           
             return 'laser_weapon_armory'
         else:
             return 'death'
@@ -120,13 +127,14 @@ class CentralCorridor(Scene):
 class LaserWeaponArmory(Scene):
     
     def __init__(self):
-        super(LaserWeaponArmory, self).__init__()
+       # super(LaserWeaponArmory, self).__init__(scenes)
         self.laser_entry = textwrap.dedent(
         """\n\n
         You know there is a bomb in the vault in the room. Only the
         captain knows the code for the keypad to the vault. The captain
         is likely dead so it is up to you to figure it out!""")
         self.description = 'Laser Weapon Armory'
+        self.new_item = 'bomb'
 
     def enter(self):
         super(LaserWeaponArmory, self).enter()
@@ -174,7 +182,7 @@ class LaserWeaponArmory(Scene):
 class TheBridge(Scene):
     
     def __init__(self):
-        super(TheBridge, self).__init__()
+       # super(TheBridge, self).__init__()
         self.bridge_entry = textwrap.dedent(
         """ \n\n
         All you need to do is cross this bridge and get to the esape pods!
@@ -232,7 +240,7 @@ class TheBridge(Scene):
 class EscapePod(Scene):
 
     def __init__(self):
-        super(EscapePod, self).__init__()
+      #  super(EscapePod, self).__init__()
         self.description = 'Escape Pod Room'
         self.escape_entry = textwrap.dedent(
         """ \n\n
@@ -283,6 +291,7 @@ class Map(object):
               'escape_pod' : EscapePod(),
               'death' : Death()}
               
+              
     def __init__(self, start_scene):
         self.start_scene = start_scene
         
@@ -292,7 +301,21 @@ class Map(object):
     def opening_scene(self):
         return self.next_scene(self.start_scene)
         
+   
+class Player(object):
+    
+    def __init__(self):
+        self.items = []
         
+    def obtain_item(self, found_item):
+        supplies = self.items.append(found_item)
+        return supplies
+        
+    def use_item(self, found_item):
+        pass
+        
+        
+a_player = Player()
 a_map = Map('central_corridor')
-a_game = Engine(a_map)
+a_game = Engine(a_map, a_player)
 a_game.play()
