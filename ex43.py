@@ -26,20 +26,9 @@ class Engine(object):
 
     def __init__(self, scene_map, player):
         self.scene_map = scene_map
-        self.items = []
         self.player = player
         
-    def play_again(self):
-        print "\nWould you like to play again?"
-        while True:
-            response = str(raw_input("y or n?\n> "))
-            response = response.lower()
-            if response == 'y':
-                a_game.play()
-            if response == 'n':
-                exit()
-            else:
-                continue
+    
                 
     def pass_player(self, player):
         pass
@@ -50,10 +39,12 @@ class Engine(object):
         
         
         while True:
-            print "\n ------------------"
-            next_scene_name = current_scene.enter()
-            current_scene = self.scene_map.next_scene(next_scene_name)
-        
+            if current_scene:
+                print "\n ------------------"
+                next_scene_name = current_scene.enter()
+                current_scene = self.scene_map.next_scene(next_scene_name)
+            if current_scene == None:
+                break
         
 class Death(Scene):
     
@@ -75,7 +66,8 @@ class Death(Scene):
 
     def enter(self):
         print "\n\n%s." % self.dead
-        a_game.play_again()
+        return None
+        
         
         
 class CentralCorridor(Scene):
@@ -114,15 +106,11 @@ class CentralCorridor(Scene):
         if answer == 'a bird\'s shadow':
             
             print self.riddle_text
-            player_1.obtain_item(self.new_item)
            
             return 'laser_weapon_armory'
         else:
             return 'death'
             
-#test = CentralCorridor()
-#test.enter()
-
 
 class LaserWeaponArmory(Scene):
     
@@ -134,7 +122,7 @@ class LaserWeaponArmory(Scene):
         captain knows the code for the keypad to the vault. The captain
         is likely dead so it is up to you to figure it out!""")
         self.description = 'Laser Weapon Armory'
-        self.new_item = 'bomb'
+       # self.new_item = 'bomb'
 
     def enter(self):
         super(LaserWeaponArmory, self).enter()
@@ -143,8 +131,8 @@ class LaserWeaponArmory(Scene):
         
         guesses = ''
         print "Input 4 numbers please.\n\n"
-        code = "%d%d%d" %(randint(1,9), randint(1,9), randint(1,9), randint(1,9))
-        cheat_code = "%d%d%d" % (1, 2, 3, 4)
+        code = "%d%d%d%d" %(randint(1,9), randint(1,9), randint(1,9), randint(1,9))
+        cheat_code = "%d%d%d%d" % (1, 2, 3, 4)
         while True:
 
             guess = str(raw_input('> '))
@@ -165,8 +153,8 @@ class LaserWeaponArmory(Scene):
             if guess == code:
                 print "You have unlocked the vault!."
                 print "You have obtained item 'Bomb', 'Grenade' and item 'Key'"
-                self.items.append('Bomb')
-                self.items.append('Key')
+                #self.items.append('Bomb')
+                #self.items.append('Key')
                 return 'the_bridge'
             else: 
                 print "Wrong code."
@@ -275,8 +263,8 @@ class EscapePod(Scene):
             return 'death'
         elif escape == '4':
             self.slow_print(self.pod_text)
-            print "%s" % self.items
-            a_game.play_again()
+            return None
+            
         elif escape == '5':
             pass
             return 'death'
@@ -289,7 +277,8 @@ class Map(object):
               'laser_weapon_armory' : LaserWeaponArmory(),
               'the_bridge' : TheBridge(),
               'escape_pod' : EscapePod(),
-              'death' : Death()}
+              'death' : Death(),
+              }
               
               
     def __init__(self, start_scene):
@@ -309,13 +298,33 @@ class Player(object):
         
     def obtain_item(self, found_item):
         supplies = self.items.append(found_item)
-        return supplies
+        
         
     def use_item(self, found_item):
         pass
+
+def ask_user_question():
+
+    while True:
+        print "\n Would you like to play again?"
+        response = str(raw_input("y or n?\n> "))
+        response = response.lower()
+        if response == 'y':
+            return response
+        if response == 'n':
+            exit()
+        else:
+            continue
+
+response = "y"
+while True:
+    
+    if response == "y":        
+        a_player = Player()
+        a_map = Map('central_corridor') 
+        a_game = Engine(a_map, a_player)
+        a_game.play()
+        ask_user_question()
+    
         
-        
-a_player = Player()
-a_map = Map('central_corridor')
-a_game = Engine(a_map, a_player)
-a_game.play()
+
