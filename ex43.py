@@ -9,8 +9,9 @@ class Scene(object):
     def __init__(self):
 
         self.description = 'scene'
+       
 
-    def enter(self):
+    def enter(self, player):
         print "\n\nYou have entered %s." % self.description
         
         
@@ -24,27 +25,21 @@ class Scene(object):
 
 class Engine(object):
 
-    def __init__(self, scene_map, player):
+    def __init__(self, scene_map):
         self.scene_map = scene_map
-        self.player = player
-        
-    
-                
-    def pass_player(self, player):
-        pass
             
         
-    def play(self):
+    def play(self, player):
         current_scene = self.scene_map.opening_scene()
         
         
-        while True:
-            if current_scene:
+        while current_scene:
+           # if current_scene:
                 print "\n ------------------"
-                next_scene_name = current_scene.enter()
+                next_scene_name = current_scene.enter(player)
                 current_scene = self.scene_map.next_scene(next_scene_name)
-            if current_scene == None:
-                break
+           # if current_scene == None:
+              #  break
         
 class Death(Scene):
     
@@ -64,7 +59,7 @@ class Death(Scene):
         """)
          
 
-    def enter(self):
+    def enter(self, player):
         print "\n\n%s." % self.dead
         return None
         
@@ -89,15 +84,16 @@ class CentralCorridor(Scene):
         The Gothon steps aside and lets you pass.
         You have obtained item Laser Gun.""")
         self.description = 'Central Corridor'
-        self.new_item = 'Laser gun'
         self.scenes = 'scenes'
         self.dead = textwrap.dedent(
         """\n\n 
         'THAT IS THE WRONG ANSWER!' The Gothon booms. Then he grabs you 
         and drags you off to be a prisoner of war.""")
+        self.found_item = 'gun'
+       
     
-    def enter(self):
-        super(CentralCorridor, self).enter()
+    def enter(self, player):
+        super(CentralCorridor, self).enter(player)
         
     
         self.slow_print(self.central_text)
@@ -106,7 +102,8 @@ class CentralCorridor(Scene):
         if answer == 'a bird\'s shadow':
             
             print self.riddle_text
-           
+            player.obtain_item(self.found_item)
+            print player.items
             return 'laser_weapon_armory'
         else:
             return 'death'
@@ -122,10 +119,10 @@ class LaserWeaponArmory(Scene):
         captain knows the code for the keypad to the vault. The captain
         is likely dead so it is up to you to figure it out!""")
         self.description = 'Laser Weapon Armory'
-       # self.new_item = 'bomb'
+        self.found_item = 'bomb'
 
-    def enter(self):
-        super(LaserWeaponArmory, self).enter()
+    def enter(self, player):
+        super(LaserWeaponArmory, self).enter(player)
         
         self.slow_print(self.laser_entry)
         
@@ -148,13 +145,16 @@ class LaserWeaponArmory(Scene):
                 raw_input('Please type in 4 numbers.\n\n> ')
             if guess == cheat_code:
                 print "You have unlocked the vault!."
+                player.obtain_item('Key')
                 return 'the_bridge'
                 
             if guess == code:
                 print "You have unlocked the vault!."
                 print "You have obtained item 'Bomb', 'Grenade' and item 'Key'"
-                #self.items.append('Bomb')
-                #self.items.append('Key')
+                player.obtain_item('Bomb')
+                player.obtain_item('Key')
+                player.obtain_item('Grenade')
+                print player.items
                 return 'the_bridge'
             else: 
                 print "Wrong code."
@@ -164,8 +164,7 @@ class LaserWeaponArmory(Scene):
                     print "GAME OVER!"
                     exit()
             
-#test2 = LaserWeaponArmory()
-#test2.enter()
+
         
 class TheBridge(Scene):
     
@@ -175,7 +174,7 @@ class TheBridge(Scene):
         """ \n\n
         All you need to do is cross this bridge and get to the esape pods!
         Oh no! There is a Gothon standing in your way. The Gothon snarls.
-        With a glean in it's eye he reaches for his club. 
+        With a gleam in it's eye he reaches for his club. 
         'ROAAAAAAAAAAAAAAAAAAAAAAR!' The Gothon charges.""")
         self.gun_text = textwrap.dedent(
         """\n\n
@@ -200,8 +199,8 @@ class TheBridge(Scene):
         
         self.description = 'The Bridge'
 
-    def enter(self):
-        super(TheBridge, self).enter()
+    def enter(self, player):
+        super(TheBridge, self).enter(player)
         self.slow_print(self.bridge_entry)
         
         while True: 
@@ -222,8 +221,7 @@ class TheBridge(Scene):
                 print "Oh well, game over for you!"
                 return 'death'
 
-#bridge_test = TheBridge()
-#bridge_test.enter()
+
          
 class EscapePod(Scene):
 
@@ -247,8 +245,8 @@ class EscapePod(Scene):
         seat. 'Everyone I know is dead.' You begin to cry uncontrollably
         as the pod makes it's way down to your home planet. """)
 
-    def enter(self):
-        super(EscapePod, self).enter()
+    def enter(self, player):
+        super(EscapePod, self).enter(player)
         self.slow_print(self.escape_entry)
         escape = str(raw_input('Which escape pod do you pick (1-5)?\n\n> '))
         
@@ -322,8 +320,8 @@ while True:
     if response == "y":        
         a_player = Player()
         a_map = Map('central_corridor') 
-        a_game = Engine(a_map, a_player)
-        a_game.play()
+        a_game = Engine(a_map)
+        a_game.play(a_player)
         ask_user_question()
     
         
