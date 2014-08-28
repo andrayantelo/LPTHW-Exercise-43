@@ -163,6 +163,60 @@ class LaserWeaponArmory(Scene):
                     print "\nYou took too long! A Gothon ate you."
                     print "GAME OVER!"
                     exit()
+                    
+                    
+Class TheCheatBridge(Scene):
+    
+    def __init__(self):
+        self.cheatbridge_entry = textwrap.dedent(
+        """\n\n
+        All you need to do is cross the bridge and get to the escape pods!
+        Oh no! There is a Gothon standing in your way. The Gothon snarls. 
+        With a gleam in its eye it reaches for its club. 
+        'ROAAAAAAAAAAAAAAAAAAR!' The Gothon charges.""")
+        self.fight_text = textwrap.dedent(
+        """\n\n
+        You choose to fight the Gothon. You bring your fists up ready to 
+        show it who's boss. The Gothon stops in it's track and let's out a
+        loud howl. Is he... is he laughing? Your confidence drops a little and 
+        you lower your fists. The Gothon howls and howls and drops to it's
+        knees. You look around nerrvously but no other Gothons are around. 
+        You begin to tiptoe your way around the Gothon. The Gothon continues
+        to snort and howl slamming his club repeatedly on the ground. As soon 
+        as you are on the other side of the Gothon you make a break for it. 
+        The howling stops. Your hear begins to pound furiously in fear and
+        you try to will your legs to go faster. You leap through the entrance of 
+        the escape pod and yell out 'COMPUTER CLOSE DOOR'. The Gothon snarls
+        and reaches out and grabs the back of your suit just as the escape pod's
+        metal door slams shut slicing off it's arm. You stare wide-eyed at the door
+        and the Gothon's severed arm. You pry your suit out of the Gothon's
+        claws and back away."""
+        self.dodge_text = textwrap.dedent(
+        """\n\n
+        The Gothon advances towards you with his club. You veer left as the Gothon swings 
+        towards you. The Gothon momentarily loses sight of you and you make a break 
+        for the escape pod room. Just as you are about to reach the entrance of the
+        escape pod room the Gothon wacks you on the side of your head with 
+        his club. You fall unconscious and the Gothon drags you away."""
+        self.run_text = textwrap.dedent(
+        """\n\n
+        You make a break for the escape pod room which is behind the Gothon. 
+        The Gothon stops in it's tracks when it sees you running towards him. 
+        He takes a hard swing and knocks you out with his club."""
+        
+        
+        
+    def enter(self):
+        super(TheCheatBridge, self).enter(player)
+        self.slow_print(self.cheatbridge_entry) 
+        
+        what_to_do = str(raw_input("Available commands: Fight, Dodge, Run"))
+        what_to_do = what_to_do.lower()
+        
+        if what_to_do == 'fight':
+            
+            
+        
             
 
         
@@ -174,7 +228,7 @@ class TheBridge(Scene):
         """ \n\n
         All you need to do is cross this bridge and get to the esape pods!
         Oh no! There is a Gothon standing in your way. The Gothon snarls.
-        With a gleam in it's eye he reaches for his club. 
+        With a gleam in its eye it reaches for its club. 
         'ROAAAAAAAAAAAAAAAAAAAAAAR!' The Gothon charges.""")
         self.gun_text = textwrap.dedent(
         """\n\n
