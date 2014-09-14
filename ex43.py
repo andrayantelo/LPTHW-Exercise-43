@@ -97,13 +97,14 @@ class CentralCorridor(Scene):
         
     
         self.slow_print(self.central_text)
+        print a_player.items
         answer = str(raw_input('> '))
         answer = answer.lower()
         if answer == 'a bird\'s shadow':
             
             print self.riddle_text
-            player.obtain_item(self.found_item)
-            print player.items
+            a_player.obtain_item(self.found_item)
+            print a_player.items
             return 'laser_weapon_armory'
         else:
             return 'death'
@@ -130,6 +131,7 @@ class LaserWeaponArmory(Scene):
         print "Input 4 numbers please.\n\n"
         code = "%d%d%d%d" %(randint(1,9), randint(1,9), randint(1,9), randint(1,9))
         cheat_code = "%d%d%d%d" % (1, 2, 3, 4)
+        print code
         while True:
 
             guess = str(raw_input('> '))
@@ -145,16 +147,17 @@ class LaserWeaponArmory(Scene):
                 raw_input('Please type in 4 numbers.\n\n> ')
             if guess == cheat_code:
                 print "You have unlocked the vault!."
-                player.obtain_item('Key')
+                a_player.obtain_item('Key')
+                print a_player.items
                 return 'the_cheatbridge'
                 
             if guess == code:
                 print "You have unlocked the vault!."
                 print "You have obtained item 'Bomb', 'Grenade' and item 'Key'"
-                player.obtain_item('Bomb')
-                player.obtain_item('Key')
-                player.obtain_item('Grenade')
-                print player.items
+                a_player.obtain_item('Bomb')
+                a_player.obtain_item('Key')
+                a_player.obtain_item('Grenade')
+                print a_player.items
                 return 'the_bridge'
             else: 
                 print "Wrong code."
